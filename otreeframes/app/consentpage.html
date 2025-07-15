@@ -1,0 +1,115 @@
+{{block content}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Protection</title>
+    {{block style}}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        header img {
+            max-height: 80px;
+        }
+
+        h1, h3,h3 {
+            color: #1B9783;
+        }
+
+        section {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .consent-buttons {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .consent-buttons button {
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .yes-button {
+            background-color: #4cb5a7;
+            color: white;
+        }
+
+        .yes-button:hover {
+            background-color: #009682;
+        }
+    </style>
+    {{endblock}}
+</head>
+<body>
+
+<header>
+    <img src="https://www.win.kit.edu/img/win_logo_en_transparent.png" alt="WIN Logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Logo_KIT.svg/1200px-Logo_KIT.svg.png" alt="KIT Logo">
+</header>
+
+<main>
+    <section>
+        <h1>Informationen zur Studie und zum Datenschutz</h1>
+
+        <h3>Ziel der Studie</h3>
+        <p>Wir möchten untersuchen, welche Rolle personalisierte Bots in virtuellen Meetings spielen können. Die Teilnahme an dieser kurzen Demonstration dauert nicht länger als 10 Minuten. Im Anschluss bitten wir Sie, einen kurzen Fragebogen auszufüllen.</p>
+
+        <h3>Wer kann teilnehmen?</h3>
+        <p>Sie können teilnehmen, wenn Sie: <br>
+            •	zwischen 18 und 65 Jahre alt sind, <br>
+            •	fließend Deutsch sprechen, <br>
+            •	technisch und körperlich in der Lage sind, an einer Videokonferenz teilzunehmen, <br>
+            •	und bereit sind, Ihre Audio- und Videodaten im Rahmen der Demo freizugeben. <br>
+            
+        </p>
+
+        <h3>Datenschutz und Vertraulichkeit</h3>
+        <p>Während der Demonstration nehmen Sie an einem fiktiven Videogespräch teil.<br>
+            •	Ihre Audiodaten werden lokal auf dem Laptop der Demonstrierenden aufgezeichnet und auf einem lokalen Server in Text umgewandelt.<br>
+            •	Die transkribierten Texte werden zur Auswertung an OpenAI übermittelt.<br>
+            •	Nach Abschluss der Demo werden Ihre Audiodaten gelöscht – es bleibt nur der transkribierte Text erhalten.<br>
+            •	Weitere Informationen wie Ihre Antworten aus dem Fragebogen oder der Zeitpunkt Ihrer Teilnahme werden sicher gespeichert und können in zukünftigen Studien verwendet werden.<br>
+            •	In allen Auswertungen und Veröffentlichungen erfolgt eine vollständige Anonymisierung Ihrer Daten – Rückschlüsse auf Ihre Person sind ausgeschlossen.<br>
+            </p>
+
+        <h3>Risiken und Nutzen</h3>
+        <p>Mit der Teilnahme sind keine besonderen Risiken verbunden – sie entspricht in etwa der Nutzung gängiger Videokonferenzsoftware im Alltag. Ihre Teilnahme kann helfen, digitale Zusammenarbeit in Zukunft zu verbessern.</p>
+
+        <h3>Ihre Rechte</h3>
+        <p>Die Teilnahme ist freiwillig. Sie können jederzeit ohne Angabe von Gründen aus der Studie aussteigen oder Ihre Einwilligung widerrufen – Ihnen entstehen dadurch keinerlei Nachteile.</p>
+
+        <h3>Einwilligung</h3>
+        <p>Ich habe die Informationen zur Studie gelesen und verstanden. Ich bin damit einverstanden, dass meine Audiodaten im Rahmen dieser Demonstration verarbeitet und gespeichert werden.</p>
+
+        <div class="consent-buttons">
+            <button class="yes-button">Ja, ich möchte teilnehmen.</button>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>
+{{endblock}}

@@ -1,0 +1,412 @@
+
+{% load otree static %}
+
+{% block style %}
+<style>
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+header img {
+    max-height: 80px;
+}
+#container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 100%;
+    height: 80vh;
+    padding: 10px;
+    gap: 10px;
+}
+
+#meet {
+    flex: 3;
+    background: #f8f9fa; /* Helles Grau für oTree-Look */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#chat {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+#chat-input {
+    margin-top: 5px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+}
+.message-wrapper {
+  display: flex;
+  margin: 8px 12px;
+}
+
+.message-wrapper.bot {
+  justify-content: flex-start;
+}
+
+.message-wrapper.user {
+  justify-content: flex-end;
+}
+
+.message {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 18px;
+  position: relative;
+  font-size: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  background-color: #f1f0f0;
+  color: #333;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.message.bot {
+  background-color: #e4e6eb;
+  color: #000;
+  border-top-left-radius: 0;
+}
+
+.message.bot::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid #e4e6eb;
+  border-right: 10px solid transparent;
+}
+
+.message.user {
+  background-color: #007aff;
+  color: white;
+  border-top-right-radius: 0;
+}
+
+.message.user::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -8px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid #007aff;
+  border-left: 10px solid transparent;
+}
+#is-writing {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 24px;
+    color: #888;
+}
+
+.hidden {
+    display: none;
+}
+button {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", sans-serif;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 30px; /* Runde Ecken wie bei iMessage */
+    border: none;
+    color: white;
+    background-color: #007aff; /* Blau wie bei iMessage */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Sanfte Übergänge */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px
+}
+
+button:hover {
+    background-color: #0051a8; /* Dunkleres Blau bei Hover */
+    transform: scale(1.05); /* Leichte Vergrößerung bei Hover */
+}
+
+button:active {
+    background-color: #003d73; /* Noch dunkler bei Klick */
+    transform: scale(1); /* Normalgröße, wenn geklickt */
+}
+
+/* Button-Icon und Text ausrichten */
+button span {
+    margin-right: 8px; /* Abstand zwischen Icon und Text */
+}
+</style>
+
+{% endblock %}
+
+
+{% block script %}
+<script src="JITSI - API"></script>
+<script>
+    const domain = "haps-meeting.k8s.iism.kit.edu"; //Here goes your domain where the meeting takes place.
+     const NameParam = {{player.id_in_group}}%4;
+     const TN_name = "P" + {{player.id_in_subsession}} + ": " + js_vars.playername 
+     {{if player.id_in_subsession == 1 }}
+     + " (Moderator)"
+     {{endif}}
+     ;
+     // adjust information to display
+
+    const options = {
+        roomName: "Video Meeting", //This is the name of the room, with player's group ID
+        parentNode: document.querySelector('#meet'), //Now, you declare here which element should parent your stream.
+        configOverwrite: {
+            prejoinConfig: {
+                  enabled: false
+            },
+            disableSelfView: false,
+            startWithAudioMuted: false,
+            startWithVideoMuted: false,
+            filmstrip: {
+                 disableResizable: true,
+             },
+            participantsPane: {
+             hideModeratorSettingsTab: true,
+             hideMoreActionsButton: true,
+             hideMuteAllButton: true
+            },
+            disableAEC: false, // Acoustic Echo Cancellation
+            disableNS: false,  // Noise Suppression
+            resolution: 480,
+                constraints: {
+                    video: {
+                        height: {
+                            ideal: 480,
+                            max: 480,
+                            min: 240
+                        }
+                    }
+                },
+                disableSimulcast: false,
+                enableLayerSuspension: true,
+                toolbarButtons: [
+                    'microphone', 'camera', 'tileview' // Custom button added
+                ]
+
+        },
+     //You can turn on or off config elements with this prop.
+        interfaceConfigOverwrite: {
+            TOOLBAR_BUTTONS: ['microphone', 'camera', 'fodeviceselection', 'tileview'],
+            SHOW_JITSI_WATERMARK: false,
+            TILE_VIEW_MAX_COLUMNS: 2,
+            TILE_VIEW_ENABLED: true,
+            SHOW_MEETING_TIMER: false,
+            SHOW_MORE_ACTIONS: false,
+            PARTICIPANT_MENU_BUTTONS: []
+        },
+        userInfo: {
+            displayName: TN_name,
+          }
+        };
+
+        //This is where the iframe is actually constructed
+        //The function below turns on the Tile View everytime a participant joins. Practically it makes Tile View the default mode
+        const api = new JitsiMeetExternalAPI(domain, options);
+         api.addEventListener(`videoConferenceJoined`, () => {
+                setTimeout(() => {
+                          api.executeCommand('toggleVirtualBackgroundDialog');
+                }, 2000);
+               const listener = ({ enabled }) => {
+                            api.removeEventListener(`tileViewChanged`, listener);
+                            if (!enabled) {
+                                api.executeCommand(`toggleTileView`);
+                            }
+                        };
+                });
+        
+        // Diese Funktion übernimmt die Live - Audio- Kommunikation mit dem otree Backend Server 
+        let mediaRecorder = null;
+        let stream = null;
+        let intervalId = null;
+        // We need this status flag to signalize stop - signs which enables an elegant start-stop automation
+        let status = "running"
+        async function start() {
+            let audioChunks = [];
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+
+                //This is where the stop and server communication takes place
+                mediaRecorder.onstop = async () => {
+                    if (audioChunks.length > 0) {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        const reader = new FileReader();
+                        reader.readAsDataURL(audioBlob);
+                        reader.onloadend = () => {
+                            //deleting the prefix
+                            const base64Audio = reader.result.split(',')[1];
+                            //sending the audio data to the server
+                            liveSend({
+                                status : status,
+                                type: 'audio',
+                                audio_data: base64Audio,
+                            });
+                        };
+                        audioChunks = [];
+                    }
+                };
+
+                mediaRecorder.start();
+
+                intervalId = setInterval(() => {
+                    if (mediaRecorder && mediaRecorder.state === "recording") {
+                        mediaRecorder.stop();
+                        mediaRecorder.start(); // restart segment
+                    }
+                }, 10000); //sending every 10 seconds
+
+            } catch (error) {
+                console.error('Fehler beim Zugreifen auf das Mikrofon: ', error);
+            }
+        }
+
+        //help - function to start the audio
+        function starthilfe() {
+            //button visibility exchange
+            document.getElementById("start").style.display = "none";
+            document.getElementById("stop").style.display = "block";
+
+            status = "running"
+
+            liveSend({ status:status,start: "start" });
+            start();
+        }
+        
+        //This basically enables the "is writing"-animation
+        const typingwrap = document.createElement("div");
+        typingwrap.classList.add("message-wrapper", "bot");
+        const typer = document.createElement("div");
+        typer.classList.add("message", "bot");
+        const gif = document.createElement("img");
+        gif.src = "https://cdn.pixabay.com/animation/2024/04/02/07/57/07-57-40-974_512.gif";  // content enthält hier die URL des GIFs
+        gif_size = 14 * 2; //Font Size * 2
+        gif.style.width = `${gif_size}px`
+        gif.style.height = "auto";
+        typer.appendChild(gif)
+        typingwrap.appendChild(typer)
+
+        //Stop Function
+        function stop() {
+            document.getElementById("stop").style.display = "none";
+            addMessage("🔊 Audio","user")
+            document.getElementById("chat-messages").appendChild(typingwrap);
+            document.getElementById("chat-messages").scrollTop = document.getElementById("chat-messages").scrollHeight;
+            status ="stop"
+
+            //Terminating the last begun audio
+            clearInterval(intervalId); // stop interval 
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                mediaRecorder.stop(); // close last segment correctly
+            }
+        }
+        //Adding the respective eventlistener for the buttons
+        document.getElementById("start").addEventListener("click",starthilfe)
+        document.getElementById("stop").addEventListener("click",stop)
+    
+        //dict to store the spoken answers
+        const audioCache = {};
+
+        //This function decodes the Base64 Byte format and stores it as a temporary audio file
+        function storeBase64Audio(key, base64String) {
+            const binary = atob(base64String);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) {
+                bytes[i] = binary.charCodeAt(i);
+            }
+            const blob = new Blob([bytes], { type: 'audio/mpeg' });
+            const url = URL.createObjectURL(blob);
+
+            audioCache[key] = { blob, url };
+        }
+
+        //handling the live - messages of server/backend
+        function liveRecv(data) {
+            console.log('received a message!', data);
+            if("message" in data){
+                document.getElementById("chat-messages").removeChild(typingwrap);
+                storeBase64Audio(data.index,data.spoken_message)
+                addMessage(content = data.message, from ="bot" ,index = data.index);
+                document.getElementById("start").style.display = "block";
+
+            }
+        }
+
+        const chatBox = document.getElementById("chat-messages");
+
+        //This function handles the message exchange between the bot and the user
+        function addMessage(content, from = "bot", index = 0) {
+            const msgWrapper = document.createElement("div");
+            msgWrapper.classList.add("message-wrapper", from);
+
+            const msg = document.createElement("div");
+            msg.classList.add("message", from);
+            msg.textContent = content;
+
+            msgWrapper.appendChild(msg);
+            document.getElementById("chat-messages").appendChild(msgWrapper);
+            document.getElementById("chat-messages").scrollTop = document.getElementById("chat-messages").scrollHeight;
+            //Auto play the bot's message
+            if(index > 0)
+            {
+            const audioData = audioCache[index];
+            const audio = new Audio(audioData.url);
+            audio.play();
+            }
+        }
+        addMessage("Hi! Ich bin bereit, wenn du es bist. Worüber möchtest du heute sprechen? Stell Dich doch mal vor :)",from = "bot",index = 0)
+         </script> 
+{% endblock %}
+{% block content%}
+
+<!-- This is just the layout -->
+<header>
+    <img src="https://www.win.kit.edu/img/win_logo_en_transparent.png" alt="WIN Logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Logo_KIT.svg/1200px-Logo_KIT.svg.png" alt="KIT Logo">
+</header>
+<div id="container">
+    <div id="meet"></div>
+    <div id="chat">
+      <div id="chat-messages"></div>
+      <button id="start" type="button">🎙️ - start</button>
+      <button id="stop" type="button" style="display: none;">🛑 - stop</button>
+    </div>
+  </div>
+
+
+{{next_button}}
+
+{%endblock%}
+{% block global_scripts  %}
+{% endblock %}

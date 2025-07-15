@@ -1,0 +1,94 @@
+{{block content}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thank You for Participating</title>
+    {{block style}}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        header img {
+            max-height: 80px;
+        }
+
+        main {
+            text-align: center;
+        }
+
+        section {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin-top: 2rem;
+        }
+
+        h1, h3 {
+            color: #1B9783;
+        }
+
+        p {
+            font-size: 1.1rem;
+        }
+
+        .qr-code {
+            margin-top: 2rem;
+        }
+
+        .qr-code img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+        }
+
+        .email-note {
+            margin-top: 2rem;
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+{{endblock}}
+</head>
+<body>
+
+<header>
+    <img src="https://www.win.kit.edu/img/win_logo_en_transparent.png" alt="WIN Logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Logo_KIT.svg/1200px-Logo_KIT.svg.png" alt="KIT Logo">
+</header>
+
+<main>
+    <section>
+        <h1>Vielen Dank für Ihre Teilnahme!</h1>
+        <p></p>Wir schätzen Ihre Zeit und Ihr Engagement, an unserer Studie teilzunehmen, sehr.</p>
+        
+        <div class="qr-code">
+            <h3>Folgeumfrage</h3>
+            <p>Bitte scannen Sie den untenstehenden QR-Code, um an einer kurzen Anschlussbefragung teilzunehmen:</p>
+            <img src="{{ static 'MENTI - SURVEY' }}" width="200px" alt="QR placeholder">
+            <p>Bitte geben sie folgenden Teilnehmer Code ein: <strong>{{session.code}}</strong></p>
+        </div>
+
+        <div class="email-note">
+            <p>Ihre bereitgestellten Daten sowie Ihre Umfrageantworten können, wenn verlangt, sicher an Ihre E-Mail-Adresse übermittelt werden.</p>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>
+{{endblock}}

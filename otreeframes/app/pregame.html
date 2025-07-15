@@ -1,0 +1,213 @@
+{{block content}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Configuration</title>
+    {{block style}}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        header img {
+            max-height: 80px;
+        }
+
+        main {
+            text-align: center;
+        }
+
+        section {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            text-align: left;
+        }
+
+        h1, h3,h5 {
+            color: #1B9783;
+        }
+
+        p {
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background-color: #4cb5a7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #009682;
+        }
+    </style>
+    {{endblock}}
+</head>
+<body>
+
+<header>
+    <img src="https://www.win.kit.edu/img/win_logo_en_transparent.png" alt="WIN Logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Logo_KIT.svg/1200px-Logo_KIT.svg.png" alt="KIT Logo">
+</header>
+<main>
+    <section>
+        <h1>Willkommen und vielen Dank!</h1>
+        <p>Wir freuen uns sehr, dass Sie an dieser Studie teilnehmen. Vielen Dank für Ihre wertvolle Unterstützung!</p>
+
+        <h3>Nutzung</h3>
+        <p>In Kürze werden Sie an einem Videomeeting teilnehmen, bei dem Sie mit einem personalisierten Chatbot interagieren werden. Das Gespräch erfolgt in Form von Sprachnachrichten von Ihnen sowie von dem Chatbot ausgegebenen Audio-/Textantworten – analog zu einem natürlichen Dialog. Zum Starten Ihrer Audioaufzeichnung, drücken sie auf START. Wenn sie die Audiodatei final an den Chatbot senden möchten, drücken sie auf STOPP.</p>
+
+        <h3>Ihre Konfiguration:</h3>
+        <p>Bevor es losgeht, können Sie Ihren Chatbot individuell gestalten. Sie bestimmen z. B. seinen Charakter, seinen emotionalen Stil, das Gesprächsthema des Dialogs und können zusätzliche Informationen/Anweisungen angeben.</p>
+
+        <form method="post">
+    
+            <div class="form-group">
+                <label for="custom_dropdown">Für Ideen, wählen Sie gerne eine Option (oder Sie werden kreativ!):</label>
+                <select id="custom_dropdown">
+                    <option value="" disabled selected>Bitte wählen...</option>
+                    <!-- Optionen werden per JS ergänzt -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="character">Charakter <p style = "font-style: italic; font-weight: normal;">(z. B. Thomas Müller, Mathelehrer, Pharao, Donald Trump, Mutter, Napoleon im Jahr 1810)</p></label>
+                {{ form.character }}
+                
+            </div>
+
+            <div class="form-group">
+                <label for="emotion">Emotionaler Stil <p style = "font-style: italic; font-weight: normal;">(z. B. fröhlich, ruhig, ernst, energisch, ambitioniert, überheblich)</p></label>
+                {{form.emotion}}
+            </div>
+
+            <div class="form-group">
+                <label for="topic">Gesprächsthema <p style = "font-style: italic; font-weight: normal;">(z. B. Zukunftstechnologien, Klimawandel, Urlaub, Relativitätstheorie)</p></label>
+                {{form.topic}}
+            </div>
+
+            <div class="form-group">
+                <label for="additional_instructions">Weitere Wünsche oder Anweisungen <p style = "font-style: italic; font-weight: normal;">(z.B. Sprich mich immer mit Sportsfreund an., Ergänze deine Aussagen mit kreativen Redewendungen., Ich habe heute Morgen vergessen, die Spülmaschine auszuräumen und du bist sauer auf mich. – Sie können gerne kreativ werden!)</p></label>
+                {{form.additional}}
+            </div>
+
+            <div class="form-group">
+                <label for="voice">Welche Stimme möchten Sie hören?</label>
+                {{form.voice}}
+            </div>
+
+            <button type="submit">Weiter zur Interaktion.</button>
+        </form>
+
+        <p style="margin-top:2rem; font-style: italic;">Wir sind gespannt auf Ihr Gespräch. Los geht's!</p>
+    </section>
+</main>
+{{block script}}
+<script>
+//Character
+TM = {
+    character: "Thomas Müller - Spieler vom FC Bayern München",
+    emotion: "fröhlich",
+    topic: "Relativitätstheorie",
+    additional: "Bayrischer Dialekt",
+    voice: "onyx"
+};
+
+DP = {
+    character: "Digitale Präsentationsassistentin",
+    emotion: "sachlich und souverän",
+    topic: "Orientiere Dich an dem gegebenen Inhalt.",
+    additional: "Ich präsentiere Themen und Du musst für mich einspringen, wenn ich inhaltlich nicht mehr weiterkomme. Das heißt, formuliere Deine Antworten als Präsentation zu dem gegebenen Inhalt.",
+    voice: "echo"
+};
+
+BM = {
+    character: "Bauer aus dem Mittelalter",
+    emotion: "aufgeweckt und lebensfroh",
+    topic: "Erzähle von deinen täglichen Alltagsaufgaben",
+    additional: "Fühle dich stark sozial in die Dorfgemeinschaft eingebunden, hast aber Misstrauen gegenüber Deines Nachbarhofes und Hass auf den Fronherrn. Benutze eine altertümliche Sprache.",
+    voice: "shimmer"
+};
+const dropdown = document.getElementById("custom_dropdown");
+const options = ["Thomas Müller", "Präsentationsassistentin", "Bauer aus dem Mittelalter","Werden Sie kreativ!"];
+options.forEach(opt => {
+    const optionElement = document.createElement("option");
+    optionElement.value = opt;
+    optionElement.textContent = opt;
+    dropdown.appendChild(optionElement);});
+dropdown.addEventListener("change", function () {
+    if(dropdown.value == "Thomas Müller"){
+        $('#id_character').val(TM.character);
+        $('#id_emotion').val(TM.emotion);
+        $('#id_topic').val(TM.topic);
+        $('#id_additional').val(TM.additional);
+        $('#id_voice').val(TM.voice);
+    }
+    else if(dropdown.value == "Präsentationsassistentin"){
+        $('#id_character').val(DP.character);
+        $('#id_emotion').val(DP.emotion);
+        $('#id_topic').val(DP.topic);
+        $('#id_additional').val(DP.additional);
+        $('#id_voice').val(DP.voice);   
+    }
+    else if(dropdown.value == "Bauer aus dem Mittelalter"){
+        $('#id_character').val(BM.character);
+        $('#id_emotion').val(BM.emotion);
+        $('#id_topic').val(BM.topic);
+        $('#id_additional').val(BM.additional);
+        $('#id_voice').val(BM.voice);   
+    }
+    else {
+        $('#id_character').val('');
+        $('#id_emotion').val('');
+        $('#id_topic').val('');
+        $('#id_additional').val('');
+        $('#id_voice').val('');  
+    }
+});
+
+</script>
+{{endblock}}
+</body>
+</html>
+{{endblock}}
