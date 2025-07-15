@@ -1,5 +1,5 @@
 Thank you for trying out the Otree program or perhaps developing it further.
-To start it, you have to add some codes/keys (see below), but then you only need to start the program as a classic Otree Project/app.
+To start the simulation, you have to add some codes/keys (see below), but then you only need to start the program as a classic Otree-project/app.
 
 Quick introduction:
 - navigate to the __init__.py
